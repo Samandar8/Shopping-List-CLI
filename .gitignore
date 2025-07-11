@@ -19,4 +19,4 @@ Thumbs.db
 *.tmp
 *.bak
 # created by virtualenv automatically
-
+.venv/
