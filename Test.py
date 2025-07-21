@@ -1,111 +1,68 @@
-def file_saver(tasks):
-    with open('tasks.txt', 'w', encoding='utf-8') as file:
-        for task in tasks:
-            file.write(task + "\n")
-    print("Задачи сохранены!")
+d = {}
+def adder():
+    item = input("Введите товар: ")
+    price = int(input("Введите цену: "))
+    d.update({item: price})
+    print("Добавлено!")
 
-def add_task(tasks):
-    text = input("Введите задачу: ").strip()
-    if text:
-        tasks.append("✘ " + text)
-        print("Задача добавлена!")
+
+
+def remover():
+
+    if not d:
+        print("Вы ещё ничего не добавляли! С начало добавте продукты!")
     else:
-        print("Задание не может быть пустым!")
-        print()
-    return tasks
-
-def list_task(tasks):
-    if tasks:
-        for i, t in enumerate(tasks, start=1):
-            print(f"{i}. {t}")
-    else:
-        print("Список задач пуст!")
-        print()
+        b = input("Введите название товара, который хотите удалить: ")
+        if b in d:
+            del d[b]
+            print("Удалено!")
+        else:
+            print("Такого продукта нет!")
 
 
-def doner_task(tasks):
-    if not tasks:
-        print("Сначала добавьте задания!")
-        print()
-    else:
-        try:
-            n = int(input("Введите номер задачи: "))
-            if 1 <= n <= len(tasks):
-                if tasks[n - 1].startswith("✘ "):
-                    tasks[n - 1] = tasks[n - 1].replace("✘ ", "✔ ")
-                    print("Задача помечена как выполненная!")
-                else:
-                    print("Задача уже выполнена!")
-            else:
-                print("Нет такой задачи!")
-        except ValueError:
-            print("Введите число!")
-    return tasks
 
 
-def delete_task(tasks):
-    if not tasks:
-        print("Список пуст!")
-        print()
-    else:
-        try:
-            n = int(input("Введите номер задачи: "))
-            if 1 <= n <= len(tasks):
-                deleted = tasks.pop(n - 1)
-                print(f"Удалена задача: {deleted}")
-            else:
-                print("Нет такой задачи!")
-        except ValueError:
-            print("Введите число!")
-    return tasks
+def saver():
+    with open("shopping.txt", "w", encoding="utf-8") as file:
+        file.write(str(d))
+        print("Покупки были сохранены в файле shopping.txt")
 
-tasks = []
-try:
-    with open("tasks.txt", encoding='utf-8') as file:
-        tasks = [line.strip() for line in file.readlines()]
-    print("Задачи загружены!")
-except FileNotFoundError:
-    print("Файл задач не найден. Начинаем с пустого списка.")
 
 while True:
-    print("Команды: add, list, done, delete, save, exit, help")
-    cmd = input(">>> ").strip().lower()
+    print("Команды: add, remove, list, total, save, exit")
+    a = input(">>> ")
+    if a == "add":
+        adder()
 
-    if cmd == "exit":
-        if len(tasks) > 0:
-            file_saver(tasks)
-        print("Пока!")
+    elif a == "remove":
+        remover()
+
+    elif a == "list":
+        if d:
+            for i, (k, v) in enumerate(d.items(), 1):
+                print(f"{i}. {k} — {v} сум")
+        else:
+            print("Список пуст.")
+
+    elif a == "total":
+        print(f"Сумма: {sum(d.values())}")
+
+    elif a == "save":
+        saver()
+
+    elif a == "exit":
         break
 
-    elif cmd == "add":
-        tasks = add_task(tasks)
-
-    elif cmd == "list":
-        list_task(tasks)
-
-    elif cmd == "done":
-        tasks = doner_task(tasks)
-
-    elif cmd == "delete":
-        tasks = delete_task(tasks)
-
-    elif cmd == "save":
-        file_saver(tasks)
-
-    elif cmd == "help":
-        print("""
-Добро пожаловать в To-Do менеджер!
-Команды:
-add     - Добавить задачу
-list    - Показать все задачи
-done    - Отметить задачу выполненной
-delete  - Удалить задачу
-save    - Сохранить задачи в файл
-exit    - Выход
-""")
-        print()
     else:
-        print("Неизвестная команда.")
+        print("Напишите только команды! (add, remove, list, total, save, exit)")
+
+
+
+
+
+
+
+
 
 
 
