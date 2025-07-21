@@ -20,3 +20,8 @@ Thumbs.db
 *.bak
 # created by virtualenv automatically
 .venv/
+pyvenv.cfg
+CACHEDIR.TAG
+Scripts
+Lib
+
